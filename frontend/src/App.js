@@ -1,53 +1,65 @@
-import { useEffect } from "react";
-import "@/App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import axios from "axios";
+import React from 'react';
+import "./App.css";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { CartProvider } from './context/CartContext';
+import { UserProvider } from './context/UserContext';
+import Header from './components/Header';
+import HomePage from './components/HomePage';
+import RestaurantPage from './components/RestaurantPage';
+import CartPage from './components/CartPage';
+import CheckoutPage from './components/CheckoutPage';
+import OrderTrackingPage from './components/OrderTrackingPage';
+import OrdersPage from './components/OrdersPage';
+import LoginPage from './components/LoginPage';
+import DasherPage from './components/DasherPage';
+import SearchPage from './components/SearchPage';
+import AccountPage from './components/AccountPage';
+import CategoriesPage from './components/CategoriesPage';
+import { Toaster } from './components/ui/toaster';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
-
-const Home = () => {
-  const helloWorldApi = async () => {
-    try {
-      const response = await axios.get(`${API}/`);
-      console.log(response.data.message);
-    } catch (e) {
-      console.error(e, `errored out requesting / api`);
-    }
-  };
-
-  useEffect(() => {
-    helloWorldApi();
-  }, []);
+// Layout component that conditionally shows header
+const Layout = ({ children }) => {
+  const location = useLocation();
+  const noHeaderRoutes = ['/login', '/cart', '/checkout', '/dasher', '/account'];
+  const hideHeader = noHeaderRoutes.some(route => location.pathname.startsWith(route)) || 
+                     location.pathname.startsWith('/order/') ||
+                     location.pathname.startsWith('/restaurant/');
 
   return (
-    <div>
-      <header className="App-header">
-        <a
-          className="App-link"
-          href="https://emergent.sh"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img src="https://avatars.githubusercontent.com/in/1201222?s=120&u=2686cf91179bbafbc7a71bfbc43004cf9ae1acea&v=4" />
-        </a>
-        <p className="mt-5">Building something incredible ~!</p>
-      </header>
-    </div>
+    <>
+      {!hideHeader && <Header />}
+      {children}
+      <Toaster />
+    </>
   );
 };
 
 function App() {
   return (
-    <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />}>
-            <Route index element={<Home />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <UserProvider>
+      <CartProvider>
+        <div className="App">
+          <BrowserRouter>
+            <Layout>
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/restaurant/:id" element={<RestaurantPage />} />
+                <Route path="/cart" element={<CartPage />} />
+                <Route path="/checkout" element={<CheckoutPage />} />
+                <Route path="/order/:orderId" element={<OrderTrackingPage />} />
+                <Route path="/orders" element={<OrdersPage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/dasher" element={<DasherPage />} />
+                <Route path="/search" element={<SearchPage />} />
+                <Route path="/account" element={<AccountPage />} />
+                <Route path="/categories" element={<CategoriesPage />} />
+                <Route path="/pickup" element={<HomePage />} />
+              </Routes>
+            </Layout>
+          </BrowserRouter>
+        </div>
+      </CartProvider>
+    </UserProvider>
   );
 }
 
