@@ -53,7 +53,7 @@ const Header = () => {
 
             {/* Delivery Address - Desktop */}
             <button 
-              onClick={() => setAddressDialogOpen(true)}
+              onClick={() => setLocationPickerOpen(true)}
               className="hidden md:flex items-center gap-2 px-4 py-2 hover:bg-gray-100 rounded-full transition-colors"
             >
               <MapPin className="w-5 h-5 text-[#FF3008]" />
