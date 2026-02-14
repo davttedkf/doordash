@@ -265,9 +265,3 @@ const Header = () => {
 };
 
 export default Header;
-      </Dialog>
-    </>
-  );
-};
-
-export default Header;
