@@ -21,6 +21,11 @@ export const UserProvider = ({ children }) => {
     return saved || '123 Main Street, San Francisco, CA 94105';
   });
 
+  const [deliveryLocation, setDeliveryLocation] = useState(() => {
+    const saved = localStorage.getItem('doordash-location');
+    return saved ? JSON.parse(saved) : [37.7749, -122.4194]; // Default SF coords
+  });
+
   const [orders, setOrders] = useState(() => {
     const saved = localStorage.getItem('doordash-orders');
     return saved ? JSON.parse(saved) : [];
@@ -52,6 +57,10 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     localStorage.setItem('doordash-address', address);
   }, [address]);
+
+  useEffect(() => {
+    localStorage.setItem('doordash-location', JSON.stringify(deliveryLocation));
+  }, [deliveryLocation]);
 
   useEffect(() => {
     localStorage.setItem('doordash-orders', JSON.stringify(orders));
