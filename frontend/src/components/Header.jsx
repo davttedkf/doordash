@@ -253,31 +253,18 @@ const Header = () => {
         </div>
       )}
 
-      {/* Address Dialog */}
-      <Dialog open={addressDialogOpen} onOpenChange={setAddressDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Enter your delivery address</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4">
-            <div className="relative">
-              <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-              <Input
-                type="text"
-                placeholder="Enter address..."
-                value={tempAddress}
-                onChange={(e) => setTempAddress(e.target.value)}
-                className="pl-10"
-              />
-            </div>
-            <Button 
-              onClick={handleAddressSave}
-              className="w-full bg-[#FF3008] hover:bg-[#E02B07]"
-            >
-              Save Address
-            </Button>
-          </div>
-        </DialogContent>
+      {/* Location Picker */}
+      <LocationPicker
+        open={locationPickerOpen}
+        onClose={() => setLocationPickerOpen(false)}
+        onLocationSelect={handleLocationSelect}
+        currentAddress={address}
+      />
+    </>
+  );
+};
+
+export default Header;
       </Dialog>
     </>
   );
