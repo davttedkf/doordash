@@ -203,7 +203,7 @@ const Header = () => {
               <button 
                 onClick={() => {
                   setMobileMenuOpen(false);
-                  setAddressDialogOpen(true);
+                  setLocationPickerOpen(true);
                 }}
                 className="w-full flex items-center gap-3 p-3 bg-gray-50 rounded-lg"
               >
