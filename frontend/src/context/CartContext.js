@@ -15,11 +15,22 @@ export const CartProvider = ({ children }) => {
     const saved = localStorage.getItem('doordash-cart');
     return saved ? JSON.parse(saved) : [];
   });
-  const [currentRestaurant, setCurrentRestaurant] = useState(null);
+  const [currentRestaurant, setCurrentRestaurant] = useState(() => {
+    const saved = localStorage.getItem('doordash-restaurant');
+    return saved ? JSON.parse(saved) : null;
+  });
 
   useEffect(() => {
     localStorage.setItem('doordash-cart', JSON.stringify(cartItems));
   }, [cartItems]);
+
+  useEffect(() => {
+    if (currentRestaurant) {
+      localStorage.setItem('doordash-restaurant', JSON.stringify(currentRestaurant));
+    } else {
+      localStorage.removeItem('doordash-restaurant');
+    }
+  }, [currentRestaurant]);
 
   const addToCart = (item, restaurant) => {
     // Check if adding from different restaurant
