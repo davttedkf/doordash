@@ -11,26 +11,22 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from './ui/dialog';
 import { Input } from './ui/input';
+import LocationPicker from './LocationPicker';
 
 const Header = () => {
   const navigate = useNavigate();
   const { getTotalItems, currentRestaurant } = useCart();
-  const { user, address, setAddress, isDasher, toggleDasherMode, logout } = useUser();
+  const { user, address, setAddress, setDeliveryLocation, isDasher, toggleDasherMode, logout } = useUser();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [addressDialogOpen, setAddressDialogOpen] = useState(false);
-  const [tempAddress, setTempAddress] = useState(address);
+  const [locationPickerOpen, setLocationPickerOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
-  const handleAddressSave = () => {
-    setAddress(tempAddress);
-    setAddressDialogOpen(false);
+  const handleLocationSelect = (locationData) => {
+    setAddress(locationData.address);
+    if (setDeliveryLocation) {
+      setDeliveryLocation(locationData.coordinates);
+    }
   };
 
   const handleSearch = (e) => {
