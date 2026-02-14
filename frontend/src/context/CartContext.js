@@ -75,6 +75,7 @@ export const CartProvider = ({ children }) => {
     setCartItems([]);
     setCurrentRestaurant(null);
     localStorage.removeItem('doordash-cart');
+    localStorage.removeItem('doordash-restaurant');
   };
 
   const getSubtotal = () => {
